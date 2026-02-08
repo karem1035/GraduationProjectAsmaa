@@ -63,7 +63,19 @@ public class SecurityConfig {
                     return opt;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // السماح بمسارات التسجيل
+                        // Public endpoints
+                        .requestMatchers("/api/auth/**").permitAll()
+
+                        // Admin-only endpoints
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                        // TourGuide-only endpoints
+                        .requestMatchers("/api/tourguide/**").hasRole("TOURGUIDE")
+
+                        // Tourist-only endpoints
+                        .requestMatchers("/api/tourist/**").hasRole("TOURIST")
+
+                        // Any other request requires authentication
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

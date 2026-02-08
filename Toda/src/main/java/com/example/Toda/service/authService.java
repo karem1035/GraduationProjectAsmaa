@@ -39,7 +39,7 @@ public class authService {
         newUser.setUsername(registerRequest.username());
         newUser.setEmail(registerRequest.email());
         newUser.setPassword(passwordEncoder.encode(registerRequest.password()));
-        newUser.setRole(Role.USER);
+        newUser.setRole(registerRequest.role());
         userRepo.save(newUser);
         UserPrincipal userPrincipal = new UserPrincipal(newUser);
         String token = jwtService.generateToken(claims, userPrincipal);
@@ -49,4 +49,3 @@ public class authService {
     }
 
 }
-
