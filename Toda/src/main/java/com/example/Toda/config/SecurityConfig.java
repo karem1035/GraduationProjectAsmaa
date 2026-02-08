@@ -66,9 +66,12 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Hotel search public endpoints
-                        .requestMatchers("/api/cities/**").permitAll()
-                        .requestMatchers("/api/hotels/**").permitAll()
+                        // Hotel search public endpoints (must be before admin endpoints)
+                        .requestMatchers("/api/cities").permitAll()
+                        .requestMatchers("/api/cities/*").permitAll()
+                        .requestMatchers("/api/hotels").permitAll()
+                        .requestMatchers("/api/hotels/search").permitAll()
+                        .requestMatchers("/api/hotels/*").permitAll()
 
                         // Admin-only endpoints
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")

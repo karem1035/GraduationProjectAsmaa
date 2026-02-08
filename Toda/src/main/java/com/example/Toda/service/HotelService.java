@@ -87,22 +87,25 @@ public class HotelService {
     public List<HotelSearchResponse> searchHotels(HotelSearchCriteria criteria) {
         List<HotelEntity> hotels;
 
+        String hotelName = criteria.hotelName();
+        boolean hasHotelNameFilter = hotelName != null && !hotelName.isBlank();
+
         // Apply filters based on provided criteria
-        if (criteria.minRating() != null && criteria.hotelName() != null && !criteria.hotelName().isBlank()) {
+        if (criteria.minRating() != null && hasHotelNameFilter) {
             hotels = hotelRepository.findByCityIdAndRatingGreaterThanEqualAndNameContainingIgnoreCase(
                     criteria.cityId(),
                     criteria.minRating(),
-                    criteria.hotelName()
+                    hotelName
             );
         } else if (criteria.minRating() != null) {
             hotels = hotelRepository.findByCityIdAndRatingGreaterThanEqual(
                     criteria.cityId(),
                     criteria.minRating()
             );
-        } else if (criteria.hotelName() != null && !criteria.hotelName().isBlank()) {
+        } else if (hasHotelNameFilter) {
             hotels = hotelRepository.findByCityIdAndNameContainingIgnoreCase(
                     criteria.cityId(),
-                    criteria.hotelName()
+                    hotelName
             );
         } else {
             hotels = hotelRepository.findByCityId(criteria.cityId());
