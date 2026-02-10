@@ -37,4 +37,10 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(ex.getMessage()));
     }
+    @ExceptionHandler(TourGuideNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleTourGuideNotFoundException(TourGuideNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiResponse.error(ex.getMessage()));
+    }
 }
