@@ -51,6 +51,27 @@ public class TourGuideService {
         return mapToResponse(tourGuide);
     }
 
+    public void updateProfileField(Long id, String fieldName, String value) {
+        TourGuideEntity tourGuide = tourGuideRepo.findById(id)
+                .orElseThrow(() -> new TourGuideNotFoundException("Tour guide not found with id: " + id));
+
+        switch (fieldName) {
+            case "profilePhoto":
+                tourGuide.setProfilePhoto(value);
+                break;
+            case "license":
+                tourGuide.setLicense(value);
+                break;
+            case "idDocument":
+                tourGuide.setIdDocument(value);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid field name: " + fieldName);
+        }
+
+        tourGuideRepo.save(tourGuide);
+    }
+
     private TourGuideEntity mapToEntity(TourGuideRequest request) {
         TourGuideEntity entity = new TourGuideEntity();
         entity.setName(request.getName());
@@ -67,6 +88,9 @@ public class TourGuideService {
         entity.setCoveredArea(request.getCoveredArea());
         entity.setPriceRange(request.getPriceRange());
         entity.setTourDuration(request.getTourDuration());
+        entity.setProfilePhoto(request.getProfilePhoto());
+        entity.setLicense(request.getLicense());
+        entity.setIdDocument(request.getIdDocument());
         return entity;
     }
 
@@ -85,6 +109,9 @@ public class TourGuideService {
         if (request.getCoveredArea() != null) entity.setCoveredArea(request.getCoveredArea());
         if (request.getPriceRange() != null) entity.setPriceRange(request.getPriceRange());
         if (request.getTourDuration() != null) entity.setTourDuration(request.getTourDuration());
+        if (request.getProfilePhoto() != null) entity.setProfilePhoto(request.getProfilePhoto());
+        if (request.getLicense() != null) entity.setLicense(request.getLicense());
+        if (request.getIdDocument() != null) entity.setIdDocument(request.getIdDocument());
     }
 
     private TourGuideResponse mapToResponse(TourGuideEntity entity) {
@@ -104,6 +131,9 @@ public class TourGuideService {
         response.setCoveredArea(entity.getCoveredArea());
         response.setPriceRange(entity.getPriceRange());
         response.setTourDuration(entity.getTourDuration());
+        response.setProfilePhoto(entity.getProfilePhoto());
+        response.setLicense(entity.getLicense());
+        response.setIdDocument(entity.getIdDocument());
         return response;
     }
 }

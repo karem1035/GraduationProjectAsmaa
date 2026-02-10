@@ -67,6 +67,15 @@ public class TourGuideEntity {
     @Column(name = "tour_duration", nullable = false)
     private Integer tourDuration;
 
+    @Column(name = "profile_photo")
+    private String profilePhoto;
+
+    @Column(name = "license")
+    private String license;
+
+    @Column(name = "id_document")
+    private String idDocument;
+
     public enum GuideType {
         MALE,
         FEMALE

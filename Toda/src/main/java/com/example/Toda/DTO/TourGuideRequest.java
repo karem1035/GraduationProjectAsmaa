@@ -24,4 +24,7 @@ public class TourGuideRequest {
     private String coveredArea;
     private PriceRange priceRange;
     private Integer tourDuration;
+    private String profilePhoto;
+    private String license;
+    private String idDocument;
 }
