@@ -5,6 +5,9 @@ import com.example.Toda.DTO.TourGuideRequest;
 import com.example.Toda.DTO.TourGuideResponse;
 import com.example.Toda.service.TourGuideService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,6 +54,17 @@ public class TourGuideController {
         return ResponseEntity
                 .ok()
                 .body(ApiResponse.success(response, "Tour guide profile retrieved successfully"));
+    }
+
+    @GetMapping("/profiles")
+    public ResponseEntity<ApiResponse<Page<TourGuideResponse>>> getAllTourGuides(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TourGuideResponse> responsePage = tourGuideService.getAllTourGuides(pageable);
+        return ResponseEntity
+                .ok()
+                .body(ApiResponse.success(responsePage, "Tour guides retrieved successfully"));
     }
 
     @PostMapping("/profile/{id}/photo")

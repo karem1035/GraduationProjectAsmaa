@@ -5,6 +5,8 @@ import com.example.Toda.DTO.TourGuideResponse;
 import com.example.Toda.Entity.TourGuideEntity;
 import com.example.Toda.exception.TourGuideNotFoundException;
 import com.example.Toda.repo.TourGuideRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -49,6 +51,11 @@ public class TourGuideService {
         TourGuideEntity tourGuide = tourGuideRepo.findById(id)
                 .orElseThrow(() -> new TourGuideNotFoundException("Tour guide not found with id: " + id));
         return mapToResponse(tourGuide);
+    }
+
+    public Page<TourGuideResponse> getAllTourGuides(Pageable pageable) {
+        return tourGuideRepo.findAll(pageable)
+                .map(this::mapToResponse);
     }
 
     public void updateProfileField(Long id, String fieldName, String value) {

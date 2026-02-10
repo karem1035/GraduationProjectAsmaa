@@ -65,8 +65,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // السماح بمسارات التسجيل
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/tourguide/**").hasRole("TOURGUIDE")
-                        .requestMatchers("/api/tourist/**").hasRole("TOURIST")
+                        .requestMatchers("/api/tourguide/**").hasAnyRole("ADMIN", "TOURGUIDE")
+                        .requestMatchers("/api/tourist/**").hasAnyRole("ADMIN", "TOURIST")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
